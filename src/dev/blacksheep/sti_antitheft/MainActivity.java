@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import com.littlefluffytoys.littlefluffylocationlibrary.LocationLibrary;
+
 import android.app.admin.DeviceAdminInfo;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
@@ -135,7 +137,6 @@ public class MainActivity extends PreferenceActivity {
 										+ location.getAccuracy() + "m" + "\nProvider : " + location.getProvider();
 								Log.e("Location", data);
 								Toast.makeText(MainActivity.this, data, Toast.LENGTH_LONG).show();
-
 							}
 						}
 					}
@@ -187,6 +188,17 @@ public class MainActivity extends PreferenceActivity {
 				new Utils(MainActivity.this).setPopupOnBoot(true, Consts.PHONE_STOLEN);
 				startActivity(new Intent(MainActivity.this, PopupMessageActivity.class).putExtra("message", Consts.PHONE_STOLEN));
 				return false;
+			}
+		});
+		
+		Preference pref_test_location = (Preference) findPreference("pref_test_location");
+		pref_test_location.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+
+			@Override
+			public boolean onPreferenceClick(Preference preference) {
+				LocationLibrary.forceLocationUpdate(MainActivity.this);
+				new Utils(MainActivity.this).getFluffyLocation();
+			    return false;
 			}
 		});
 	}

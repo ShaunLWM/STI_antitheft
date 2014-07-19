@@ -38,8 +38,12 @@
             android:title="Test Decrypt Files" />
         <Preference
             android:key="pref_sms"
-            android:summary="Test all sms commands (Location, Alarm, Status) Check logcat."
+            android:summary="Test all sms commands Alarm + Status) Check logcat."
             android:title="Test SMS Commands." />
+        <Preference
+            android:key="pref_test_location"
+            android:summary="Test location"
+            android:title="Test location Commands." />
         <Preference
             android:key="pref_popup"
             android:summary="Test popup screen"

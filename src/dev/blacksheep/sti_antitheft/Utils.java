@@ -4,6 +4,8 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.security.SecureRandom;
+import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 import javax.crypto.Cipher;
@@ -16,6 +18,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -24,8 +28,12 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
+import com.littlefluffytoys.littlefluffylocationlibrary.LocationLibrary;
 import com.securepreferences.SecurePreferences;
 
 public class Utils {
@@ -78,28 +86,38 @@ public class Utils {
 		return decrypted;
 	}
 
+	public String getDeviceId() {
+		TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+		final String deviceId = tm.getDeviceId();
+		if (deviceId != null) {
+			return deviceId + "(D)";
+		} else {
+			return android.os.Build.SERIAL + "(S)";
+		}
+	}
+
 	public String phoneStatus() {
 		String text = "";
 		TelephonyInfo telephonyInfo = TelephonyInfo.getInstance(context);
 
 		String imeiSIM1 = telephonyInfo.getImeiSIM1();
 		text += "IMEI : " + imeiSIM1 + "\n";
+		text += "UDID : " + getDeviceId() + "\n";
 		Intent batteryIntent = context.getApplicationContext().registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
 		int rawlevel = batteryIntent.getIntExtra("level", -1);
 		/*
 		 * double scale = batteryIntent.getIntExtra("scale", -1); double level =
 		 * -1; if (rawlevel >= 0 && scale > 0) { level = rawlevel / scale; }
 		 */
-		text += "Battery level : " + String.valueOf(rawlevel) + "%\n";
+		text += "Battery : " + String.valueOf(rawlevel) + "%\n";
 		WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
 		WifiInfo wifiInfo = wifi.getConnectionInfo();
 
 		if (wifi.isWifiEnabled()) {
-			text += "Wifi : On\n";
 			try {
 				text += "WiFi SSID : " + wifiInfo.getSSID() + "\n";
 			} catch (Exception e) {
-				text += "Wifi SSID : error\n";
+				text += "Wifi SSID : Error\n";
 			}
 		} else {
 			text += "Wifi : Off\n";
@@ -256,5 +274,44 @@ public class Utils {
 			}
 			return null;
 		}
+	}
+
+	public String getFluffyLocation() {
+		Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+		List<Address> addresses;
+		String data = "";
+		LocationLibrary.forceLocationUpdate(context);
+		LocationInfo locationInfo = new LocationInfo(context);
+		if (locationInfo.anyLocationDataReceived()) {
+			data += LocationInfo.formatTimeAndDay(locationInfo.lastLocationUpdateTimestamp, true) + "\n";
+			data += "Lat:" + Float.toString(locationInfo.lastLat) + " - Long:" + Float.toString(locationInfo.lastLong) + "\n";
+			data += "Acc:" + Integer.toString(locationInfo.lastAccuracy) + "m" + "\n";
+			try {
+				addresses = geocoder.getFromLocation(locationInfo.lastLat, locationInfo.lastLong, 1);
+				String address = addresses.get(0).getAddressLine(0);
+				String city = addresses.get(0).getAddressLine(1);
+				String country = addresses.get(0).getAddressLine(2);
+				data += country + ", " + city + ", " + address;
+			} catch (Exception e) {
+
+			}
+		} else {
+			LocationInfo latestInfo = new LocationInfo(context);
+			data += LocationInfo.formatTimeAndDay(latestInfo.lastLocationUpdateTimestamp, true) + "\n";
+			data += "Lat:" + Float.toString(latestInfo.lastLat) + " - Long:" + Float.toString(latestInfo.lastLong) + "\n";
+			data += "Acc:" + Integer.toString(latestInfo.lastAccuracy) + "m" + "\n";
+			try {
+				addresses = geocoder.getFromLocation(latestInfo.lastLat, latestInfo.lastLong, 1);
+				String address = addresses.get(0).getAddressLine(0);
+				String city = addresses.get(0).getAddressLine(1);
+				String country = addresses.get(0).getAddressLine(2);
+				data += country + ", " + city + ", " + address;
+			} catch (Exception e) {
+
+			}
+		}
+		Log.e("Location", data);
+		Toast.makeText(context, data, Toast.LENGTH_SHORT).show();
+		return data;
 	}
 }

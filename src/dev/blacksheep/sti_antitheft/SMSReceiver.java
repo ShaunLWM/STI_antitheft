@@ -52,35 +52,8 @@ public class SMSReceiver extends BroadcastReceiver {
 					if (body.startsWith("!" + encryptCommand)) {
 						new encryptFiles().execute();
 					} else if (body.equals("!location")) {
-						LocationResult locationResult = new LocationResult() {
-							@Override
-							public void gotLocation(Location location) {
-								if (location == null) {
-									smsManager.sendSMS(address, "Unable to get any location");
-								} else {
-									Geocoder geocoder = new Geocoder(context, Locale.getDefault());
-									List<Address> addresses;
-
-									try {
-										addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-										String address = addresses.get(0).getAddressLine(0);
-										String city = addresses.get(0).getAddressLine(1);
-										String country = addresses.get(0).getAddressLine(2);
-										String data = "Latitude : " + location.getLatitude() + "\nLongtitude : " + location.getLongitude() + "\nAddress:" + address + ", " + city + ", " + country;
-										data += "\nAccuracy : " + location.getAccuracy() + "m" + "\nProvider : " + location.getProvider();
-
-										smsManager.sendSMS(address, data);
-									} catch (IOException e) {
-										e.printStackTrace();
-										String data = "Latitude : " + location.getLatitude() + "\nLongtitude : " + location.getLongitude() + "\nAddress: ERROR";
-										data += "\nAccuracy : " + location.getAccuracy() + "m" + "\nProvider : " + location.getProvider();
-										smsManager.sendSMS(address, data);
-									}
-								}
-							}
-						};
-						MyLocation myLocation = new MyLocation();
-						myLocation.getLocation(context, locationResult, address);
+						Utils u = new Utils(context);
+						smsManager.sendSMS(address, u.getFluffyLocation());
 					} else if (body.equals("!status")) {
 						Utils u = new Utils(context);
 						Log.e("PHONE STATUS", u.phoneStatus());

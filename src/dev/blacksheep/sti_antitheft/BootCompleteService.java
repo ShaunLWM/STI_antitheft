@@ -11,6 +11,5 @@ public class BootCompleteService extends BroadcastReceiver {
 		if (new Utils(context).getPopupOnBoot()) {
 			context.startActivity(new Intent(context, PopupMessageActivity.class).putExtra("message", new Utils(context).getPopupMessageOnBoot()).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
 		}
-
 	}
 }

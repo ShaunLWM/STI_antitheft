@@ -78,6 +78,26 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
+        <service android:name="com.littlefluffytoys.littlefluffylocationlibrary.LocationBroadcastService" />
+
+        <receiver
+            android:name="com.littlefluffytoys.littlefluffylocationlibrary.StartupBroadcastReceiver"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.littlefluffytoys.littlefluffylocationlibrary.PassiveLocationChangedReceiver"
+            android:exported="true" />
+        <receiver android:name="dev.blacksheep.sti_antitheft.LocationBroadcastReceiver" >
+            <intent-filter>
+                <action
+                    android:name="dev.blacksheep.sti_antitheft.littlefluffylocationlibrary.LOCATION_CHANGED"
+                    android:exported="false" />
+            </intent-filter>
+        </receiver>
     </application>
 
     <uses-feature
