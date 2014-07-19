@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="Utils" >
+        <Preference
+            android:key="pref_show_command"
+            android:summary="Show list of commands"
+            android:title="Commands" />
+        <Preference
+            android:key="pref_choose_files"
+            android:summary="The encrypting command will encrypt whatever it is chosen here"
+            android:title="Add files to Encrypt" />
+        <Preference
+            android:key="pref_location"
+            android:summary="To allow !location command to work well, click here and make sure Location access is turned on."
+            android:title="Allow location access" />
+
+        <EditTextPreference
+            encrypt=""
+            android:key="pref_encrypt_command"
+            android:summary="When this command is received, it will encrypt the files. Default is &apos;!encrypt&apos;"
+            android:title="Set Encrypt command" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_device_admin"
+            android:summary="Enable device admin to allow remote locking of phone with custom password"
+            android:title="Device Admin" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Testing" >
+        <Preference
+            android:key="pref_encrypt"
+            android:summary="Press here before pressing the command below."
+            android:title="Test Encrypt Files" />
+        <Preference
+            android:key="pref_decrypt"
+            android:summary="Decrypt files. Press this only AFTER you press the one above"
+            android:title="Test Decrypt Files" />
+        <Preference
+            android:key="pref_sms"
+            android:summary="Test all sms commands (Location, Alarm, Status) Check logcat."
+            android:title="Test SMS Commands." />
+        <Preference
+            android:key="pref_popup"
+            android:summary="Test popup screen"
+            android:title="Test popup screen with message" />
+        <Preference
+            android:key="pref_wipe"
+            android:summary="DANGER. Wipe SD card/external storage"
+            android:title="Test Wipe External Storage." />
+        <Preference
+            android:key="pref_lock_phone"
+            android:summary="DANGER! NO WARNING. DO NOT PRESS UNLESS YOU HAVE ACCESS TO LOGCAT! Locking of phone. Check logcat for password"
+            android:title="Test Locking of Phone (NO WARNING)" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
