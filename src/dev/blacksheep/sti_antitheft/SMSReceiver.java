@@ -7,26 +7,21 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.telephony.gsm.SmsMessage;
 import android.util.Log;
-import dev.blacksheep.sti_antitheft.MyLocation.LocationResult;
+
+import com.securepreferences.SecurePreferences;
 
 public class SMSReceiver extends BroadcastReceiver {
-	private static final String TAG = "aeGis";
-
 	private static final String ACTION_SMS_RECEIVED = "android.provider.Telephony.SMS_RECEIVED";
 	private static final String EXTRA_SMS_PDUS = "pdus";
 	protected static String address;
@@ -39,8 +34,6 @@ public class SMSReceiver extends BroadcastReceiver {
 			final SMSUtils smsManager = new SMSUtils(context);
 			Bundle extras = intent.getExtras();
 			if (extras != null) {
-				SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-
 				SmsMessage[] messages = getMessagesFromIntent(intent);
 				for (SmsMessage sms : messages) {
 					String body = sms.getMessageBody();
@@ -85,6 +78,18 @@ public class SMSReceiver extends BroadcastReceiver {
 						Utils u = new Utils(context);
 						u.wipeStorageCommand();
 						smsManager.sendSMS(address, "Wipe external storage completed");
+					} else if (body.startsWith("!unlock ")) {
+						String pass = body.replace("!unlock ", "");
+						SecurePreferences sp = new SecurePreferences(context);
+						String password = sp.getString("password", "");
+						smsManager.sendSMS(address, "Unlock password : " + password);
+						if (pass.equals(password)) {
+							new Utils(context).setPopupOnBoot(false, "");
+						}
+					} else if (body.equals("!uninstall")) { 
+						Intent i = new Intent(Intent.ACTION_DELETE);
+						i.setData(Uri.parse("package:dev.blacksheep.sti_antitheft"));
+						context.startActivity(i);
 					} else if (body.startsWith("!lock")) {
 						try {
 							String pass, password = "";

@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -18,6 +20,7 @@ import com.securepreferences.SecurePreferences;
 public class PopupMessageActivity extends Activity {
 
 	int unlockTries = 0;
+	Handler mHandler = new Handler();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +31,7 @@ public class PopupMessageActivity extends Activity {
 		Intent i = getIntent();
 		((TextView) findViewById(R.id.tvMessage)).setText(i.getStringExtra("message"));
 		SecurePreferences sp = new SecurePreferences(PopupMessageActivity.this);
+		startPoll();
 		final String password = sp.getString("password", "");
 		final Button bUnlock = (Button) findViewById(R.id.bUnlock);
 		bUnlock.setOnClickListener(new OnClickListener() {
@@ -35,7 +39,7 @@ public class PopupMessageActivity extends Activity {
 			public void onClick(View v) {
 				AlertDialog.Builder alert = new AlertDialog.Builder(PopupMessageActivity.this);
 				alert.setTitle("Input Password");
-				alert.setMessage("Input the password to unlock this phone.\nYou have " + (Consts.MAX_TRIES - unlockTries) + " left.");
+				alert.setMessage("Input the password to unlock this phone.\nYou have " + (Consts.MAX_TRIES - unlockTries) + " tries left.");
 				final EditText input = new EditText(PopupMessageActivity.this);
 				alert.setView(input);
 				alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -54,6 +58,28 @@ public class PopupMessageActivity extends Activity {
 				alert.show();
 			}
 		});
+	}
+
+	private void startPoll() {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				while (true) {
+					try {
+						Thread.sleep(5000);
+						Log.e("PopupMessage", "Checking unlock..");
+						if (!new Utils(PopupMessageActivity.this).getPopupOnBoot()) {
+							mHandler.removeCallbacks(this);
+							finish();
+							break;
+						}
+						Log.e("PopupMessage", "Nope. Still lock");
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}).start();
 	}
 
 	@Override
