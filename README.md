@@ -1,6 +1,10 @@
 Changelog
 =========
 
+20/07/14 v3
+- Popup message can now be close with `!unlock <password>` command
+- `!uninstall` command just in case of any problems.
+
 19/07/14 v2
   - Using [Little Fluffy Location Library](https://code.google.com/p/little-fluffy-location-library/) for retreiving location. Hardcoded location just in case something goes wrong.
   - Added `Test Location` in settings and remove location from `Test SMS`
