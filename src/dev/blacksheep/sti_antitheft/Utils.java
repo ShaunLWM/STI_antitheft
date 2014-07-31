@@ -43,7 +43,22 @@ public class Utils {
 	public Utils(Context con) {
 		this.context = con;
 	}
+	
+	public void storeSimInfo() {
+		SecurePreferences sp = new SecurePreferences(context);
+		TelephonyManager telemamanger = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+		Log.e("SIM", telemamanger.getSimSerialNumber());
+		sp.edit().putString(Consts.STORE_SIM_SERIAL, telemamanger.getSimSerialNumber()).commit();
+	}
 
+	public boolean compareSimInfo() {
+		SecurePreferences sp = new SecurePreferences(context);
+		TelephonyManager telemamanger = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+		if (!sp.getString(Consts.STORE_SIM_SERIAL, "").equals(telemamanger.getSimSerialNumber())) {
+			return false;
+		}
+		return true;
+	}
 	public void setPopupOnBoot(boolean yesOrNo, String message) {
 		SecurePreferences sp = new SecurePreferences(context);
 		sp.edit().putBoolean("popup", yesOrNo).commit();

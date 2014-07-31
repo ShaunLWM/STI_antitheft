@@ -16,10 +16,13 @@
             android:title="Allow location access" />
 
         <EditTextPreference
-            encrypt=""
             android:key="pref_encrypt_command"
             android:summary="When this command is received, it will encrypt the files. Default is &apos;!encrypt&apos;"
             android:title="Set Encrypt command" />
+        <EditTextPreference
+            android:key="pref_sim_change_number"
+            android:summary="When a sim card change is detected, the new number will be sent to this backup phone number. Do make sure that this phone is ALWAYS available, like a spare phone at home."
+            android:title="Set Backup Phone Number" />
 
         <CheckBoxPreference
             android:defaultValue="false"
