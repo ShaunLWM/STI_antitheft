@@ -5,12 +5,15 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.securepreferences.SecurePreferences;
+
+import dev.blacksheep.sti_antitheft.classes.Utils;
 
 public class PasswordProtectedActivity extends Activity {
 	SecurePreferences sp;
@@ -44,7 +47,7 @@ public class PasswordProtectedActivity extends Activity {
 		AlertDialog.Builder alert = new AlertDialog.Builder(PasswordProtectedActivity.this);
 
 		alert.setTitle("Set Password");
-		alert.setMessage("This is your master password for login and for encrypting files which do not have its own password.");
+		alert.setMessage(Html.fromHtml("This is your master password for login and for encrypting files which do not have its own password.<br><br>Additionally, this is your SIM info. Any changes to your SIM card will trigger an alarm.<br><b>" + new Utils(PasswordProtectedActivity.this).tempSimInfo() + "</b>"));
 		final EditText input = new EditText(this);
 		alert.setView(input);
 
@@ -52,6 +55,7 @@ public class PasswordProtectedActivity extends Activity {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				String value = input.getText().toString();
 				sp.edit().putString("password", value).commit();
+				new Utils(PasswordProtectedActivity.this).storeSimInfo();
 			}
 		});
 		alert.show();

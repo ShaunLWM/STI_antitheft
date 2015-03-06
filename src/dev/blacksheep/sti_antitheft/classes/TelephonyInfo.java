@@ -1,4 +1,4 @@
-package dev.blacksheep.sti_antitheft;
+package dev.blacksheep.sti_antitheft.classes;
 
 import java.lang.reflect.Method;
 

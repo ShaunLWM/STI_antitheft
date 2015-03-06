@@ -1,4 +1,4 @@
-package dev.blacksheep.sti_antitheft;
+package dev.blacksheep.sti_antitheft.services;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -10,6 +10,10 @@ import android.util.Log;
 
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationLibraryConstants;
+
+import dev.blacksheep.sti_antitheft.MainActivity;
+import dev.blacksheep.sti_antitheft.R;
+import dev.blacksheep.sti_antitheft.R.drawable;
 
 public class LocationBroadcastReceiver extends BroadcastReceiver {
 	@Override

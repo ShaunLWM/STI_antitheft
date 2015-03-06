@@ -1,4 +1,4 @@
-package dev.blacksheep.sti_antitheft;
+package dev.blacksheep.sti_antitheft.services;
 
 import android.app.admin.DeviceAdminReceiver;
 import android.content.Context;

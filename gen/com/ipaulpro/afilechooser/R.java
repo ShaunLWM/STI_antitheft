@@ -8,31 +8,31 @@ package com.ipaulpro.afilechooser;
 
 public final class R {
 	public static final class bool {
-		public static final int use_activity = 0x7f060000;
-		public static final int use_provider = 0x7f060001;
+		public static final int use_activity = 0x7f0a0006;
+		public static final int use_provider = 0x7f0a0007;
 	}
 	public static final class dimen {
-		public static final int list_item_padding = 0x7f070001;
-		public static final int list_padding = 0x7f070000;
+		public static final int list_item_padding = 0x7f0b0010;
+		public static final int list_padding = 0x7f0b000f;
 	}
 	public static final class drawable {
-		public static final int ic_chooser = 0x7f020070;
-		public static final int ic_file = 0x7f020071;
-		public static final int ic_folder = 0x7f020072;
-		public static final int ic_provider = 0x7f020074;
+		public static final int ic_chooser = 0x7f020088;
+		public static final int ic_file = 0x7f020089;
+		public static final int ic_folder = 0x7f02008a;
+		public static final int ic_provider = 0x7f020090;
 	}
 	public static final class layout {
-		public static final int file = 0x7f030016;
+		public static final int file = 0x7f030018;
 	}
 	public static final class string {
-		public static final int choose_file = 0x7f080002;
-		public static final int empty_directory = 0x7f080000;
-		public static final int error_selecting_file = 0x7f080003;
-		public static final int internal_storage = 0x7f080004;
-		public static final int storage_removed = 0x7f080001;
+		public static final int choose_file = 0x7f06002f;
+		public static final int empty_directory = 0x7f06002d;
+		public static final int error_selecting_file = 0x7f060030;
+		public static final int internal_storage = 0x7f060031;
+		public static final int storage_removed = 0x7f06002e;
 	}
 	public static final class style {
-		public static final int fileChooserName = 0x7f090000;
+		public static final int fileChooserName = 0x7f09005d;
 	}
 	public static final class xml {
 		public static final int mimetypes = 0x7f040001;

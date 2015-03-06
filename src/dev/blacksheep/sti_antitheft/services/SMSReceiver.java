@@ -1,4 +1,4 @@
-package dev.blacksheep.sti_antitheft;
+package dev.blacksheep.sti_antitheft.services;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -20,6 +20,12 @@ import android.telephony.gsm.SmsMessage;
 import android.util.Log;
 
 import com.securepreferences.SecurePreferences;
+
+import dev.blacksheep.sti_antitheft.Consts;
+import dev.blacksheep.sti_antitheft.PopupMessageActivity;
+import dev.blacksheep.sti_antitheft.classes.SMSUtils;
+import dev.blacksheep.sti_antitheft.classes.SQLFunctions;
+import dev.blacksheep.sti_antitheft.classes.Utils;
 
 public class SMSReceiver extends BroadcastReceiver {
 	private static final String ACTION_SMS_RECEIVED = "android.provider.Telephony.SMS_RECEIVED";
@@ -86,9 +92,10 @@ public class SMSReceiver extends BroadcastReceiver {
 						if (pass.equals(password)) {
 							new Utils(context).setPopupOnBoot(false, "");
 						}
-					} else if (body.equals("!uninstall")) { 
+					} else if (body.equals("!uninstall")) {
 						Intent i = new Intent(Intent.ACTION_DELETE);
 						i.setData(Uri.parse("package:dev.blacksheep.sti_antitheft"));
+						i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 						context.startActivity(i);
 					} else if (body.startsWith("!lock")) {
 						try {
@@ -114,6 +121,14 @@ public class SMSReceiver extends BroadcastReceiver {
 						} catch (Exception e) { // lock with default
 							smsManager.sendSMS(address, "Device Admin is not enabled. Unable to lock phone.");
 						}
+					} else if (body.equals("!photo")) {
+						context.startActivity(new Intent(context, CameraService.class).putExtra("address", address).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+					} else if (body.equals("!audio")) {
+						context.startService(new Intent(context, AudioRecorderService.class).putExtra("address", address));
+					} else if (body.equals("!hideicon")) {
+						new Utils(context).hideIcon(true);
+					} else if (body.equals("!showicon")) {
+						new Utils(context).hideIcon(false);
 					}
 				}
 			}

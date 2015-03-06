@@ -1,4 +1,4 @@
-package dev.blacksheep.sti_antitheft;
+package dev.blacksheep.sti_antitheft.classes;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -18,6 +18,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationManager;
@@ -36,6 +37,9 @@ import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationLibrary;
 import com.securepreferences.SecurePreferences;
 
+import dev.blacksheep.sti_antitheft.Consts;
+import dev.blacksheep.sti_antitheft.services.DeviceAdmin;
+
 public class Utils {
 
 	private Context context;
@@ -43,22 +47,54 @@ public class Utils {
 	public Utils(Context con) {
 		this.context = con;
 	}
+
+	public String tempSimInfo() {
+		String d = "";
+		TelephonyManager telemamanger = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+		String simId = telemamanger.getSimSerialNumber();
+		String tnumber = telemamanger.getLine1Number();
+		String Imei = telemamanger.getDeviceId();
+		d = simId + "-" + tnumber + "-" + Imei;
+		return d;
+	}
 	
-	public void storeSimInfo() {
+	public String fullSimInfo() {
+		String d = "";
+		TelephonyManager telemamanger = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+		String simId = "\nSerial: " + telemamanger.getSimSerialNumber() + "\n";
+		String tnumber = "Number: " + telemamanger.getLine1Number() + "\n";
+		String Imei = "IMEI: " + telemamanger.getDeviceId();
+		d = simId + "-" + tnumber + "-" + Imei;
+		return d;
+	}
+
+	public String storeSimInfo() {
+		String d = "";
 		SecurePreferences sp = new SecurePreferences(context);
 		TelephonyManager telemamanger = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-		Log.e("SIM", telemamanger.getSimSerialNumber());
-		sp.edit().putString(Consts.STORE_SIM_SERIAL, telemamanger.getSimSerialNumber()).commit();
+		String simId = telemamanger.getSimSerialNumber();
+		String tnumber = telemamanger.getLine1Number();
+		String Imei = telemamanger.getDeviceId();
+		d = simId + "-" + tnumber + "-" + Imei;
+		sp.edit().putString(Consts.STORE_SIM_SERIAL, d).commit();
+		return d;
 	}
 
 	public boolean compareSimInfo() {
+		String d = "";
 		SecurePreferences sp = new SecurePreferences(context);
 		TelephonyManager telemamanger = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-		if (!sp.getString(Consts.STORE_SIM_SERIAL, "").equals(telemamanger.getSimSerialNumber())) {
+		String storedSimInfo = sp.getString(Consts.STORE_SIM_SERIAL, "");
+		String simId = telemamanger.getSimSerialNumber();
+		String tnumber = telemamanger.getLine1Number();
+		String Imei = telemamanger.getDeviceId();
+		d = simId + "-" + tnumber + "-" + Imei;
+		if (!storedSimInfo.equals(d)) {
 			return false;
 		}
 		return true;
 	}
+
 	public void setPopupOnBoot(boolean yesOrNo, String message) {
 		SecurePreferences sp = new SecurePreferences(context);
 		sp.edit().putBoolean("popup", yesOrNo).commit();
@@ -328,5 +364,26 @@ public class Utils {
 		Log.e("Location", data);
 		Toast.makeText(context, data, Toast.LENGTH_SHORT).show();
 		return data;
+	}
+
+	public static String keygenString(int amount) {
+		Random generator = new Random();
+		StringBuilder randomStringBuilder = new StringBuilder();
+		char tempChar;
+		for (int i = 0; i < amount; i++) {
+			tempChar = (char) (generator.nextInt(96) + 32);
+			randomStringBuilder.append(tempChar);
+		}
+		return randomStringBuilder.toString();
+	}
+
+	public void hideIcon(boolean hide) {
+		PackageManager p = context.getPackageManager();
+		ComponentName componentName = new ComponentName(context, dev.blacksheep.sti_antitheft.PasswordProtectedActivity.class);
+		if (hide) {
+			p.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+		} else {
+			p.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+		}
 	}
 }

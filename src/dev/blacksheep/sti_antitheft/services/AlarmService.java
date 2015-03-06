@@ -1,7 +1,9 @@
-package dev.blacksheep.sti_antitheft;
+package dev.blacksheep.sti_antitheft.services;
 
 import java.io.IOException;
 
+import dev.blacksheep.sti_antitheft.R;
+import dev.blacksheep.sti_antitheft.R.raw;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;

@@ -1,7 +1,8 @@
-package dev.blacksheep.sti_antitheft;
+package dev.blacksheep.sti_antitheft.classes;
 
 import java.util.Timer;
 import java.util.TimerTask;
+
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;

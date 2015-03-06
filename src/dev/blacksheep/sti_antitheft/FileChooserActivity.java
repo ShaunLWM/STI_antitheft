@@ -22,6 +22,8 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.ipaulpro.afilechooser.utils.FileUtils;
 
+import dev.blacksheep.sti_antitheft.classes.SQLFunctions;
+
 //https://github.com/iPaulPro/aFileChooser
 public class FileChooserActivity extends SherlockActivity {
 	private static final int REQUEST_CODE = 6384;
@@ -33,6 +35,8 @@ public class FileChooserActivity extends SherlockActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_file_chooser);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		lvFiles = (ListView) findViewById(R.id.lvFiles);
 		new loadFileDatabase().execute();
 	}
@@ -51,6 +55,9 @@ public class FileChooserActivity extends SherlockActivity {
 			Intent getContentIntent = FileUtils.createGetContentIntent();
 			Intent intent = Intent.createChooser(getContentIntent, "Select a file");
 			startActivityForResult(intent, REQUEST_CODE);
+			break;
+		case android.R.id.home:
+			finish();
 			break;
 		default:
 			return super.onOptionsItemSelected(item);

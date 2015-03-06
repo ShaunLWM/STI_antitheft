@@ -6,5 +6,18 @@
     <string name="action_settings">Settings</string>
     <string name="device_admin_description">Enable locking of phone with custom password</string>
     <string name="commands"><![CDATA[<b>!status</b><br>Get phone\'s status<br><br><b>!location</b><br>Get phone\'s latest, else last known location<br><br><b>!wipe</b><br>Wipe external storage/SD card<br><br><b>!alarm (optional - int seconds| default - 10 seconds)</b><br>Sound the alarm for X seconds or default, 10 seconds<br><br><b>!message (message)</b><br>Show message on the screen<br><br><b>!unlock (password)</b><br>Unlock phone when lock with message<br><br><b>!lock (optional - String password | default - master password)</b><br>Lock phone with user-defined password in text, else locked using master password set during login.<br><br><b>!encrypt (or your personal encrypt command in Settings)</b><br>Encrypt files<br><br><b>!unlock (password)</b><br>Unlock phone when lock with message<br>]]></string>
+    <string name="backup_dropbox_success_title">Successfully Authenticated Dropbox!</string>
+    <string name="backup_dropbox_success_message">Dropbox authenticated successfully. Data can now be backup into your Dropbox account!</string>
+    <string name="backup_gdrive_success_title">Successfully Authenticated Google Drive!</string>
+    <string name="backup_gdrive_success_message">Google Drive authenticated successfully. Data can now be backup into your Google Drive account!</string>
+    <string name="backup_dropbox_error_title">Failed to Authenticate Dropbox.</string>
+    <string name="backup_dropbox_error_message">Backup won\'t be placed into Dropbox account because you did not authenticate Dropbox.</string>
+    <string name="backup_gdrive_error_title">Failed to Authenticate Google Drive.</string>
+    <string name="backup_gdrive_error_message">Backup won\'t be placed into Google Drive account because you did not authenticate Google Drive.</string>
+    <string name="okay">Okay</string>
+    <string name="pref_dropbox_backup_title">Backup to Dropbox</string>
+    <string name="pref_dropbox_backup_summary">Backup emergency files to Dropbox\nDO NOT delete the AIRemote folder in your Dropbox folder EVER.</string>
+    <string name="pref_gdrive_backup_title">Backup to Google Drive</string>
+    <string name="pref_gdrive_backup_summary">Backup emergency files to Google Drive</string>
 
 </resources>

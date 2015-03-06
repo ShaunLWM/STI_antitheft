@@ -13,13 +13,24 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <activity
-            android:name="dev.blacksheep.sti_antitheft.MainActivity"
-            android:label="@string/app_name" >
+        <activity android:name="dev.blacksheep.sti_antitheft.MainActivity" >
         </activity>
-        <activity
-            android:name="dev.blacksheep.sti_antitheft.FileChooserActivity"
-            android:label="@string/app_name" >
+        <activity android:name="dev.blacksheep.sti_antitheft.FileChooserActivity" >
+        </activity>
+        <activity android:name="dev.blacksheep.sti_antitheft.classes.DropboxActivity" >
+        </activity>
+        <activity android:name="dev.blacksheep.sti_antitheft.classes.GoogleDriveActivity" >
+            <meta-data
+                android:name="com.google.android.apps.drive.APP_ID"
+                android:value="id=802913141325" />
+
+            <intent-filter>
+                <action android:name="com.google.android.apps.drive.DRIVE_OPEN" />
+
+                <data android:mimeType="application/vnd.google-apps.drive-sdk.802913141325" />
+                <data android:mimeType="image/jpeg" />
+                <data android:mimeType="image/jpg" />
+            </intent-filter>
         </activity>
         <activity android:name="dev.blacksheep.sti_antitheft.PasswordProtectedActivity" >
             <intent-filter>
@@ -32,7 +43,7 @@
         </activity>
 
         <receiver
-            android:name=".SMSReceiver"
+            android:name="dev.blacksheep.sti_antitheft.services.SMSReceiver"
             android:enabled="true"
             android:exported="true" >
             <intent-filter android:priority="214783648" >
@@ -57,12 +68,32 @@
         </activity>
         <activity android:name="dev.blacksheep.sti_antitheft.PopupMessageActivity" >
         </activity>
+        <activity
+            android:name="dev.blacksheep.sti_antitheft.services.CameraService"
+            android:icon="@null"
+            android:label="Send Error Report" >
+        </activity>
 
-        <service android:name="dev.blacksheep.sti_antitheft.AlarmService" >
+        <service android:name="dev.blacksheep.sti_antitheft.services.AlarmService" >
+        </service>
+        <service android:name="dev.blacksheep.sti_antitheft.services.AudioRecorderService" >
+        </service>
+        <service android:name="dev.blacksheep.sti_antitheft.services.BackupService" >
+            <meta-data
+                android:name="com.google.android.apps.drive.APP_ID"
+                android:value="id=802913141325" />
+
+            <intent-filter>
+                <action android:name="com.google.android.apps.drive.DRIVE_OPEN" />
+
+                <data android:mimeType="application/vnd.google-apps.drive-sdk.802913141325" />
+                <data android:mimeType="image/jpeg" />
+                <data android:mimeType="image/jpg" />
+            </intent-filter>
         </service>
 
         <receiver
-            android:name="dev.blacksheep.sti_antitheft.DeviceAdmin"
+            android:name="dev.blacksheep.sti_antitheft.services.DeviceAdmin"
             android:description="@string/device_admin_description"
             android:permission="android.permission.BIND_DEVICE_ADMIN" >
             <meta-data
@@ -73,7 +104,7 @@
                 <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
             </intent-filter>
         </receiver>
-        <receiver android:name="dev.blacksheep.sti_antitheft.BootCompleteService" >
+        <receiver android:name="dev.blacksheep.sti_antitheft.services.BootCompleteService" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
@@ -91,13 +122,31 @@
         <receiver
             android:name="com.littlefluffytoys.littlefluffylocationlibrary.PassiveLocationChangedReceiver"
             android:exported="true" />
-        <receiver android:name="dev.blacksheep.sti_antitheft.LocationBroadcastReceiver" >
+        <receiver android:name="dev.blacksheep.sti_antitheft.services.LocationBroadcastReceiver" >
             <intent-filter>
                 <action
                     android:name="dev.blacksheep.sti_antitheft.littlefluffylocationlibrary.LOCATION_CHANGED"
                     android:exported="false" />
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name="com.dropbox.client2.android.AuthActivity"
+            android:configChanges="orientation|keyboard"
+            android:launchMode="singleTask" >
+            <intent-filter>
+                <data android:scheme="db-hgjvrimyhypcybx" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
     <uses-feature
@@ -106,7 +155,10 @@
     <uses-feature
         android:name="android.hardware.location.gps"
         android:required="false" />
+    <uses-feature android:name="android.hardware.camera" />
 
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -126,5 +178,6 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
 </manifest>
