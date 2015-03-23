@@ -1,24 +1,10 @@
 package dev.blacksheep.sti_antitheft.classes;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.IntentSender.SendIntentException;
-import android.os.Bundle;
-import android.util.Log;
+public class GoogleDriveActivity {
+	
+}
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
-import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
-import com.google.android.gms.drive.Drive;
-import com.securepreferences.SecurePreferences;
-
-import dev.blacksheep.sti_antitheft.Consts;
-import dev.blacksheep.sti_antitheft.R;
-
+/*
 public class GoogleDriveActivity extends Activity implements ConnectionCallbacks, OnConnectionFailedListener {
 	private static final int REQUEST_CODE_RESOLUTION = 3;
 	String TAG = "GoogleDriveActivity";
@@ -124,4 +110,4 @@ public class GoogleDriveActivity extends Activity implements ConnectionCallbacks
 		}
 		super.onPause();
 	}
-}
+}*/
